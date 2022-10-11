@@ -23,13 +23,21 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Miserably Failing",
-						"type": "Fail",
+						"name": "Web1",
+						"type": "WebActivity",
 						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
-							"message": "This pipeline is going to crash",
-							"errorCode": "-9999"
+							"url": "https://webhook.site/836046b6-44b6-4ef7-b1b4-ba8a7601b6c1",
+							"method": "GET",
+							"headers": {}
 						}
 					}
 				],
