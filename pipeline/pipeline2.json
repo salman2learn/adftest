@@ -1,6 +1,11 @@
 {
 	"name": "pipeline2",
 	"properties": {
+		"parameters": {
+			"fn": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }

@@ -17,6 +17,9 @@
 				"pipelineReference": {
 					"referenceName": "pipeline2",
 					"type": "PipelineReference"
+				},
+				"parameters": {
+					"fn": "@triggerBody().fileName"
 				}
 			}
 		],
