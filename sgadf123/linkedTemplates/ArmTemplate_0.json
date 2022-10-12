@@ -11,7 +11,7 @@
 			"type": "string",
 			"defaultValue": "/subscriptions/62abcf9a-5fc5-4cdc-9615-f5eff3b8c1cd/resourceGroups/sgdatapipelines/providers/Microsoft.Storage/storageAccounts/sgdpstorage"
 		},
-		"trigger2_properties_pipeline1_parameters_filename": {
+		"trigger2_properties_pipeline2_parameters_filename": {
 			"type": "string",
 			"defaultValue": "@triggerBody().fileName"
 		},
@@ -58,31 +58,83 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Web1",
-						"type": "WebActivity",
+						"name": "Set variable1",
+						"type": "SetVariable",
 						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://webhook.site/836046b6-44b6-4ef7-b1b4-ba8a7601b6c1",
-							"method": "POST",
-							"headers": {},
-							"body": {
+							"variableName": "varfileName",
+							"value": {
 								"value": "@pipeline().parameters.filename",
 								"type": "Expression"
 							}
+						}
+					},
+					{
+						"name": "If Condition1",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "Set variable1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@startswith(variables('varfileName'), 'A')",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Web2",
+									"type": "WebActivity",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"url": "https://webhook.site/836046b6-44b6-4ef7-b1b4-ba8a7601b6c1",
+										"method": "POST",
+										"headers": {},
+										"body": "Banana"
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Web1",
+									"type": "WebActivity",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"url": "https://webhook.site/836046b6-44b6-4ef7-b1b4-ba8a7601b6c1",
+										"method": "POST",
+										"headers": {},
+										"body": "Apple"
+									}
+								}
+							]
 						}
 					}
 				],
@@ -93,6 +145,11 @@
 				"parameters": {
 					"filename": {
 						"type": "string"
+					}
+				},
+				"variables": {
+					"varfileName": {
+						"type": "String"
 					}
 				},
 				"annotations": []
@@ -139,11 +196,11 @@
 				"pipelines": [
 					{
 						"pipelineReference": {
-							"referenceName": "pipeline1",
+							"referenceName": "pipeline2",
 							"type": "PipelineReference"
 						},
 						"parameters": {
-							"filename": "[parameters('trigger2_properties_pipeline1_parameters_filename')]"
+							"filename": "[parameters('trigger2_properties_pipeline2_parameters_filename')]"
 						}
 					}
 				],
@@ -158,7 +215,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pipeline1')]"
+				"[concat(variables('factoryId'), '/pipelines/pipeline2')]"
 			]
 		}
 	]

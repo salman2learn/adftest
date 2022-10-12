@@ -8,7 +8,7 @@
 		"trigger1_properties_typeProperties_scope": {
 			"value": "/subscriptions/62abcf9a-5fc5-4cdc-9615-f5eff3b8c1cd/resourceGroups/sgdatapipelines/providers/Microsoft.Storage/storageAccounts/sgdpstorage"
 		},
-		"trigger2_properties_pipeline1_parameters_filename": {
+		"trigger2_properties_pipeline2_parameters_filename": {
 			"value": "@triggerBody().fileName"
 		},
 		"trigger2_properties_typeProperties_scope": {
