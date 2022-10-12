@@ -6,7 +6,7 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "pipeline2",
+					"referenceName": "PL2_if_then",
 					"type": "PipelineReference"
 				},
 				"parameters": {
