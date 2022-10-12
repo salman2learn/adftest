@@ -6,15 +6,6 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "pipeline1",
-					"type": "PipelineReference"
-				},
-				"parameters": {
-					"filename": "@triggerBody().fileName"
-				}
-			},
-			{
-				"pipelineReference": {
 					"referenceName": "pipeline2",
 					"type": "PipelineReference"
 				},
