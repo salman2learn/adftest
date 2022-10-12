@@ -2,7 +2,7 @@
 	"name": "pipeline2",
 	"properties": {
 		"parameters": {
-			"fn": {
+			"filename": {
 				"type": "string"
 			}
 		},
