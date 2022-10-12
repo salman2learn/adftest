@@ -12,7 +12,7 @@ flowchart LR;
 subgraph ADF
 	w[Web Activity]
 end
-w -- GET --> webhook.site
+w -- POST --> webhook.site
 ```
 
 ---
