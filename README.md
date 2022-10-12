@@ -1,4 +1,27 @@
-### POC #1: File Watcher
+### Exercise #1: Hello World
+
+Create a pipeline which sends "Hello World" as POST body to webhook.site.
+
+Trigger pipeline manually.
+
+
+
+```mermaid
+flowchart LR;
+
+subgraph ADF
+	w[Web Activity]
+end
+w -- GET --> webhook.site
+```
+
+
+
+
+
+### Exercise #2: File Watcher
+
+As soon as a file is dropped in a folder, send file name to webhook.site
 
 ```mermaid
 flowchart LR
@@ -14,7 +37,13 @@ t --> sa
 
 ```
 
-**To receive file name**
+**Creation:**
+
+1. Create trigger
+2. Create pipeline
+3. Connect pipeline to trigger
+
+**To receive file name from trigger**
 
 1. Add parameter to pipeline - use any name e.g. fn
 2. Trigger > Edit > Click on 0 Parameters 
@@ -44,7 +73,7 @@ For example, to use in Web activity, POST body:
 
 ---
 
-### POC #2: ADF If-then
+### Exercise #3: ADF If-then
 
 If file name starts with A, then send "Apple" to Webhook.site
 
@@ -71,29 +100,11 @@ If file name starts with B, then send "Banana" to Webhook.site
 
 ---
 
-#### Resources:
+### Exercise #4: Loops
 
-- Storage 
-- ADF
-- Key vault
-- Databricks
-- Func App
-- Func Code
-- API to Metastore
+Create a pipeline, which sends data to webhook.site based on upload filename.
 
----
+Using file name (excluding extension), send a POST request with each of the letter of filename in the body.
 
-### Concepts/POC:
-
-- File watcher using ADF (using storage events) 
-- ADF: If then
-- ADF: Loop
-  - Until loop
-  - For each
-- Calling a function app from ADF
-  - Passing parameters
-  - Getting return values
-- 
-- ADF: Get secret from key vault using web call
-- Call Databricks notebook using API
+e.g. if file name is abc.txt, send 3 POST requests with body containing a, b and c.
 
