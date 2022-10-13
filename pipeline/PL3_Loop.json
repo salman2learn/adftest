@@ -89,10 +89,6 @@
 			},
 			"letters": {
 				"type": "Array"
-			},
-			"x": {
-				"type": "String",
-				"defaultValue": "0"
 			}
 		},
 		"annotations": []
