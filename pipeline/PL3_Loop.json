@@ -42,6 +42,64 @@
 						"type": "Expression"
 					}
 				}
+			},
+			{
+				"name": "Set letters variable",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Set varfn variable",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "letters",
+					"value": {
+						"value": "@split(variables('varfn'),'.')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Set letters variable",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"activities": [
+						{
+							"name": "Web2",
+							"type": "WebActivity",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"url": "https://webhook.site/836046b6-44b6-4ef7-b1b4-ba8a7601b6c1",
+								"method": "POST",
+								"body": {
+									"value": "@item()",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
 			}
 		],
 		"parameters": {
@@ -52,6 +110,13 @@
 		"variables": {
 			"varfn": {
 				"type": "String"
+			},
+			"letters": {
+				"type": "Array"
+			},
+			"x": {
+				"type": "String",
+				"defaultValue": "0"
 			}
 		},
 		"annotations": []
