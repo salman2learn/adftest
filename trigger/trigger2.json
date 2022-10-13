@@ -6,15 +6,6 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "PL2_if_then",
-					"type": "PipelineReference"
-				},
-				"parameters": {
-					"filename": "@triggerBody().fileName"
-				}
-			},
-			{
-				"pipelineReference": {
 					"referenceName": "PL3_Loop",
 					"type": "PipelineReference"
 				},
