@@ -76,6 +76,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@variables('letters')",
+						"type": "Expression"
+					},
 					"activities": [
 						{
 							"name": "Web2",
