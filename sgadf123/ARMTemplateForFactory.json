@@ -11,10 +11,6 @@
 			"type": "string",
 			"defaultValue": "/subscriptions/62abcf9a-5fc5-4cdc-9615-f5eff3b8c1cd/resourceGroups/sgdatapipelines/providers/Microsoft.Storage/storageAccounts/sgdpstorage"
 		},
-		"trigger2_properties_PL2_if_then_parameters_filename": {
-			"type": "string",
-			"defaultValue": "@triggerBody().fileName"
-		},
 		"trigger2_properties_PL3_Loop_parameters_fn": {
 			"type": "string",
 			"defaultValue": "@triggerBody().fileName"
@@ -275,15 +271,7 @@
 			"properties": {
 				"annotations": [],
 				"runtimeState": "Stopped",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "filewatcher_pipeline",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
+				"pipelines": [],
 				"type": "BlobEventsTrigger",
 				"typeProperties": {
 					"blobPathBeginsWith": "/landing/blobs/",
@@ -294,9 +282,7 @@
 					]
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/filewatcher_pipeline')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/trigger2')]",
@@ -306,15 +292,6 @@
 				"annotations": [],
 				"runtimeState": "Started",
 				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "PL2_if_then",
-							"type": "PipelineReference"
-						},
-						"parameters": {
-							"filename": "[parameters('trigger2_properties_PL2_if_then_parameters_filename')]"
-						}
-					},
 					{
 						"pipelineReference": {
 							"referenceName": "PL3_Loop",
@@ -336,7 +313,6 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/PL2_if_then')]",
 				"[concat(variables('factoryId'), '/pipelines/PL3_Loop')]"
 			]
 		}
