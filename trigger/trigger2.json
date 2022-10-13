@@ -17,6 +17,9 @@
 				"pipelineReference": {
 					"referenceName": "PL3_Loop",
 					"type": "PipelineReference"
+				},
+				"parameters": {
+					"fn": "@triggerBody().fileName"
 				}
 			}
 		],

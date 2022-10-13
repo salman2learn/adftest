@@ -1,6 +1,11 @@
 {
 	"name": "PL3_Loop",
 	"properties": {
+		"parameters": {
+			"fn": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
