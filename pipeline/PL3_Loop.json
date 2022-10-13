@@ -16,34 +16,6 @@
 				}
 			},
 			{
-				"name": "Web1",
-				"type": "WebActivity",
-				"dependsOn": [
-					{
-						"activity": "Set varfn variable",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"url": "https://webhook.site/836046b6-44b6-4ef7-b1b4-ba8a7601b6c1",
-					"method": "POST",
-					"body": {
-						"value": "@variables('varfn')",
-						"type": "Expression"
-					}
-				}
-			},
-			{
 				"name": "Set letters variable",
 				"type": "SetVariable",
 				"dependsOn": [
