@@ -11,7 +11,11 @@
 			"type": "string",
 			"defaultValue": "/subscriptions/62abcf9a-5fc5-4cdc-9615-f5eff3b8c1cd/resourceGroups/sgdatapipelines/providers/Microsoft.Storage/storageAccounts/sgdpstorage"
 		},
-		"trigger2_properties_pipeline2_parameters_filename": {
+		"trigger2_properties_PL2_if_then_parameters_filename": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"trigger2_properties_PL3_Loop_parameters_fn": {
 			"type": "string",
 			"defaultValue": "@triggerBody().fileName"
 		},
@@ -25,40 +29,7 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/filewatcher_pipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Web1",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://webhook.site/836046b6-44b6-4ef7-b1b4-ba8a7601b6c1",
-							"method": "GET",
-							"headers": {}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
+			"name": "[concat(parameters('factoryName'), '/PL2_if_then')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -157,6 +128,106 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PL3_Loop')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Set varfn variable",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "varfn",
+							"value": {
+								"value": "@pipeline().parameters.fn",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Web1",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "Set varfn variable",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://webhook.site/836046b6-44b6-4ef7-b1b4-ba8a7601b6c1",
+							"method": "POST",
+							"headers": {},
+							"body": {
+								"value": "@variables('varfn')",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"fn": {
+						"type": "string"
+					}
+				},
+				"variables": {
+					"varfn": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/filewatcher_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Web1",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://webhook.site/836046b6-44b6-4ef7-b1b4-ba8a7601b6c1",
+							"method": "GET",
+							"headers": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/trigger1')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
@@ -196,11 +267,20 @@
 				"pipelines": [
 					{
 						"pipelineReference": {
-							"referenceName": "pipeline2",
+							"referenceName": "PL2_if_then",
 							"type": "PipelineReference"
 						},
 						"parameters": {
-							"filename": "[parameters('trigger2_properties_pipeline2_parameters_filename')]"
+							"filename": "[parameters('trigger2_properties_PL2_if_then_parameters_filename')]"
+						}
+					},
+					{
+						"pipelineReference": {
+							"referenceName": "PL3_Loop",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"fn": "[parameters('trigger2_properties_PL3_Loop_parameters_fn')]"
 						}
 					}
 				],
@@ -215,7 +295,8 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pipeline2')]"
+				"[concat(variables('factoryId'), '/pipelines/PL2_if_then')]",
+				"[concat(variables('factoryId'), '/pipelines/PL3_Loop')]"
 			]
 		}
 	]
