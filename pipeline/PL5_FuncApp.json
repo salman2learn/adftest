@@ -1,0 +1,11 @@
+{
+	"name": "PL5_FuncApp",
+	"properties": {
+		"parameters": {
+			"file": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}

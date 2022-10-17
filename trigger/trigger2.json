@@ -12,6 +12,15 @@
 				"parameters": {
 					"fn": "@triggerBody().fileName"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "PL5_FuncApp",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"file": "@triggerBody().fileName"
+				}
 			}
 		],
 		"type": "BlobEventsTrigger",
