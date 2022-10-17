@@ -101,9 +101,30 @@ If file name starts with B, then send "Banana" to Webhook.site
 
 ### Exercise #4: Loops
 
-Create a pipeline, which sends data to webhook.site based on upload filename.
+Create a pipeline, which sends data to webhook.site based on uploaded filename.
 
-Using file name (excluding extension), send a POST request with each of the letter of filename in the body.
+Using file name (excluding extension), send a Web request with each part of the filename.
 
-e.g. if file name is abc.txt, send 3 POST requests with body containing a, b and c.
+e.g. if file name is abc.txt, send 2 POST requests with body containing abc and txt
 
+if file name is xyz.abc.txt, send 3 POST requests with body containing xyz, abc and txt
+
+
+
+**Solution:**
+
+ForEach Activity takes in an array.
+
+1. Create a variable of type array e.g. parts
+
+2. Assign that variable value based on split of file name by period.
+
+   ```@split(variables('varfn'),'.')```
+
+3. ForEach will iterate over the parts variables.
+
+4. Inside ForEach, use a Web activity which uses @item   -- which represent current item in loop.
+
+
+
+https://stackoverflow.com/a/62780464/2612429
